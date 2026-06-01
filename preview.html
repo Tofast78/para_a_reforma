@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contagem para a Reforma</title>
+
+<style>
+body{
+    background:#121212;
+    color:#fff;
+    font-family:Segoe UI, Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    margin:0;
+}
+
+.container{
+    background:#1e1e1e;
+    padding:30px;
+    border-radius:15px;
+    width:90%;
+    max-width:550px;
+    text-align:center;
+    box-shadow:0 0 20px rgba(255,255,255,0.08);
+}
+
+h1{
+    color:#4fc3f7;
+    margin-bottom:20px;
+}
+
+input[type="date"]{
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#2d2d2d;
+    color:white;
+    width:250px;
+    font-size:16px;
+}
+
+button{
+    margin-top:20px;
+    padding:12px 24px;
+    border:none;
+    border-radius:8px;
+    background:#4fc3f7;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    background:#81d4fa;
+}
+
+#resultado{
+    margin-top:25px;
+    font-size:1.2em;
+    line-height:1.8;
+}
+
+.frase{
+    margin-top:20px;
+    color:#ffd54f;
+    font-style:italic;
+    font-size:1.1em;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>🏖️ Quanto Falta para a Reforma?</h1>
+
+<p>Indique a sua data de nascimento:</p>
+
+<input type="date" id="dataNascimento">
+
+<br>
+
+<button onclick="calcularReforma()">
+Calcular
+</button>
+
+<div id="resultado"></div>
+
+</div>
+
+<script>
+
+function calcularReforma(){
+
+    const nascimento = document.getElementById("dataNascimento").value;
+
+    if(!nascimento){
+        alert("Por favor indique a sua data de nascimento.");
+        return;
+    }
+
+    const dataNasc = new Date(nascimento);
+
+    // Reforma em Portugal
+    const dataReforma = new Date(dataNasc);
+    dataReforma.setFullYear(dataReforma.getFullYear() + 66);
+    dataReforma.setMonth(dataReforma.getMonth() + 7);
+
+    const hoje = new Date();
+
+    if(hoje >= dataReforma){
+        document.getElementById("resultado").innerHTML =
+        "🎉 <strong>Parabéns!</strong><br>Já atingiu a idade da reforma.";
+        return;
+    }
+
+    let anos = dataReforma.getFullYear() - hoje.getFullYear();
+    let meses = dataReforma.getMonth() - hoje.getMonth();
+    let dias = dataReforma.getDate() - hoje.getDate();
+
+    if(dias < 0){
+        meses--;
+        const ultimoMes = new Date(
+            hoje.getFullYear(),
+            hoje.getMonth() + 1,
+            0
+        ).getDate();
+
+        dias += ultimoMes;
+    }
+
+    if(meses < 0){
+        anos--;
+        meses += 12;
+    }
+
+    const frases = [
+        "Cada dia trabalhado é um dia mais perto da liberdade.",
+        "O futuro constrói-se um passo de cada vez.",
+        "A reforma é uma meta; aproveite também a viagem.",
+        "Hoje está mais perto do seu objetivo do que ontem.",
+        "Os melhores anos ainda podem estar por vir.",
+        "Persistência hoje, tranquilidade amanhã.",
+        "Continue firme. O tempo está a trabalhar a seu favor.",
+        "Cada amanhecer é mais um passo rumo à meta."
+    ];
+
+    const frase = frases[Math.floor(Math.random() * frases.length)];
+
+    document.getElementById("resultado").innerHTML = `
+        <strong>Faltam:</strong><br>
+        🗓️ ${anos} anos, ${meses} meses e ${dias} dias
+        <div class="frase">"${frase}"</div>
+    `;
+}
+
+</script>
+
+</body>
+</html>
