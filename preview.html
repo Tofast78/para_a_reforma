@@ -6,158 +6,351 @@
 <title>Contagem para a Reforma</title>
 
 <style>
-body{
-    background:#121212;
-    color:#fff;
-    font-family:Segoe UI, Arial, sans-serif;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    margin:0;
+* {
+    box-sizing: border-box;
 }
 
-.container{
-    background:#1e1e1e;
-    padding:30px;
-    border-radius:15px;
-    width:90%;
-    max-width:550px;
-    text-align:center;
-    box-shadow:0 0 20px rgba(255,255,255,0.08);
+body {
+    background: #121212;
+    color: #fff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
 }
 
-h1{
-    color:#4fc3f7;
-    margin-bottom:20px;
+.container {
+    background: #1e1e1e;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 550px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
 }
 
-input[type="date"]{
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    background:#2d2d2d;
-    color:white;
-    width:250px;
-    font-size:16px;
+h1 {
+    color: #4fc3f7;
+    margin-bottom: 10px;
+    font-size: 1.8em;
 }
 
-button{
-    margin-top:20px;
-    padding:12px 24px;
-    border:none;
-    border-radius:8px;
-    background:#4fc3f7;
-    color:black;
-    font-weight:bold;
-    cursor:pointer;
-    font-size:16px;
+.subtitle {
+    color: #bbb;
+    margin-bottom: 20px;
+    font-size: 0.95em;
 }
 
-button:hover{
-    background:#81d4fa;
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ccc;
+    font-weight: 500;
 }
 
-#resultado{
-    margin-top:25px;
-    font-size:1.2em;
-    line-height:1.8;
+input[type="date"] {
+    padding: 12px;
+    border: 2px solid #2d2d2d;
+    border-radius: 8px;
+    background: #2d2d2d;
+    color: white;
+    width: 100%;
+    max-width: 250px;
+    font-size: 16px;
+    transition: border-color 0.3s;
 }
 
-.frase{
-    margin-top:20px;
-    color:#ffd54f;
-    font-style:italic;
-    font-size:1.1em;
+input[type="date"]:focus {
+    outline: none;
+    border-color: #4fc3f7;
+}
+
+button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    background: #4fc3f7;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+button:hover {
+    background: #81d4fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 195, 247, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.error {
+    margin-top: 15px;
+    padding: 12px;
+    background: #c62828;
+    border-radius: 8px;
+    color: #fff;
+    display: none;
+    animation: slideIn 0.3s ease;
+}
+
+.error.show {
+    display: block;
+}
+
+#resultado {
+    margin-top: 25px;
+    font-size: 1.2em;
+    line-height: 1.8;
+    animation: slideIn 0.5s ease;
+}
+
+.frase {
+    margin-top: 20px;
+    color: #ffd54f;
+    font-style: italic;
+    font-size: 1.1em;
+    padding: 15px;
+    background: rgba(255, 213, 79, 0.1);
+    border-left: 3px solid #ffd54f;
+    border-radius: 4px;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+    gap: 10px;
+}
+
+.stat-box {
+    background: #2d2d2d;
+    padding: 12px;
+    border-radius: 8px;
+    flex: 1;
+}
+
+.stat-number {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #4fc3f7;
+}
+
+.stat-label {
+    font-size: 0.85em;
+    color: #999;
+    margin-top: 5px;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 1.5em;
+    }
+    
+    .stats {
+        flex-direction: column;
+    }
 }
 </style>
 </head>
 <body>
 
 <div class="container">
+    <h1>🏖️ Quanto Falta para a Reforma?</h1>
+    <p class="subtitle">Descubra quantos anos, meses e dias faltam</p>
 
-<h1>🏖️ Quanto Falta para a Reforma?</h1>
+    <label for="dataNascimento">Indique a sua data de nascimento:</label>
+    <input type="date" id="dataNascimento" aria-label="Data de nascimento">
 
-<p>Indique a sua data de nascimento:</p>
+    <br>
 
-<input type="date" id="dataNascimento">
+    <button id="btnCalcular" aria-label="Calcular idade da reforma">
+        Calcular
+    </button>
 
-<br>
-
-<button onclick="calcularReforma()">
-Calcular
-</button>
-
-<div id="resultado"></div>
-
+    <div class="error" id="erro"></div>
+    <div id="resultado"></div>
 </div>
 
 <script>
+// Configuration
+const RETIREMENT_AGE_YEARS = 66;
+const RETIREMENT_AGE_MONTHS = 7;
 
-function calcularReforma(){
+const INSPIRATIONAL_PHRASES = [
+    "Cada dia trabalhado é um dia mais perto da liberdade.",
+    "O futuro constrói-se um passo de cada vez.",
+    "A reforma é uma meta; aproveite também a viagem.",
+    "Hoje está mais perto do seu objetivo do que ontem.",
+    "Os melhores anos ainda podem estar por vir.",
+    "Persistência hoje, tranquilidade amanhã.",
+    "Continue firme. O tempo está a trabalhar a seu favor.",
+    "Cada amanhecer é mais um passo rumo à meta."
+];
 
-    const nascimento = document.getElementById("dataNascimento").value;
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    const btnCalcular = document.getElementById('btnCalcular');
+    const inputData = document.getElementById('dataNascimento');
+    
+    btnCalcular.addEventListener('click', calcularReforma);
+    inputData.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') calcularReforma();
+    });
+    
+    // Load saved date if exists
+    const savedDate = localStorage.getItem('dataNascimento');
+    if (savedDate) {
+        inputData.value = savedDate;
+    }
+});
 
-    if(!nascimento){
-        alert("Por favor indique a sua data de nascimento.");
+function showError(message) {
+    const errorDiv = document.getElementById('erro');
+    errorDiv.textContent = message;
+    errorDiv.classList.add('show');
+    document.getElementById('resultado').innerHTML = '';
+}
+
+function clearError() {
+    const errorDiv = document.getElementById('erro');
+    errorDiv.classList.remove('show');
+}
+
+function calcularReforma() {
+    clearError();
+    
+    const inputData = document.getElementById('dataNascimento');
+    const nascimento = inputData.value;
+
+    // Validation: Check if date is provided
+    if (!nascimento) {
+        showError('Por favor indique a sua data de nascimento.');
         return;
     }
 
-    const dataNasc = new Date(nascimento);
-
-    // Reforma em Portugal
-    const dataReforma = new Date(dataNasc);
-    dataReforma.setFullYear(dataReforma.getFullYear() + 66);
-    dataReforma.setMonth(dataReforma.getMonth() + 7);
-
+    const dataNasc = new Date(nascimento + 'T00:00:00');
     const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
 
-    if(hoje >= dataReforma){
-        document.getElementById("resultado").innerHTML =
-        "🎉 <strong>Parabéns!</strong><br>Já atingiu a idade da reforma.";
+    // Validation: Check if date is in the future
+    if (dataNasc > hoje) {
+        showError('A data de nascimento não pode ser no futuro.');
         return;
     }
 
-    let anos = dataReforma.getFullYear() - hoje.getFullYear();
-    let meses = dataReforma.getMonth() - hoje.getMonth();
-    let dias = dataReforma.getDate() - hoje.getDate();
-
-    if(dias < 0){
-        meses--;
-        const ultimoMes = new Date(
-            hoje.getFullYear(),
-            hoje.getMonth() + 1,
-            0
-        ).getDate();
-
-        dias += ultimoMes;
+    // Validation: Check for unrealistic ages (older than 120)
+    const ageToday = hoje.getFullYear() - dataNasc.getFullYear();
+    if (ageToday > 120 || ageToday < 0) {
+        showError('Por favor indique uma data de nascimento válida.');
+        return;
     }
 
-    if(meses < 0){
-        anos--;
-        meses += 12;
+    // Save date to localStorage
+    localStorage.setItem('dataNascimento', nascimento);
+
+    // Calculate retirement date
+    const dataReforma = new Date(dataNasc);
+    dataReforma.setFullYear(dataReforma.getFullYear() + RETIREMENT_AGE_YEARS);
+    dataReforma.setMonth(dataReforma.getMonth() + RETIREMENT_AGE_MONTHS);
+
+    // Check if already retired
+    if (hoje >= dataReforma) {
+        document.getElementById('resultado').innerHTML = `
+            <strong>🎉 Parabéns!</strong><br>
+            Já atingiu a idade da reforma em ${formatarData(dataReforma)}.
+        `;
+        return;
     }
 
-    const frases = [
-        "Cada dia trabalhado é um dia mais perto da liberdade.",
-        "O futuro constrói-se um passo de cada vez.",
-        "A reforma é uma meta; aproveite também a viagem.",
-        "Hoje está mais perto do seu objetivo do que ontem.",
-        "Os melhores anos ainda podem estar por vir.",
-        "Persistência hoje, tranquilidade amanhã.",
-        "Continue firme. O tempo está a trabalhar a seu favor.",
-        "Cada amanhecer é mais um passo rumo à meta."
+    // Calculate the difference
+    const { anos, meses, dias } = calcularDiferenca(dataNasc, dataReforma, hoje);
+
+    const frase = INSPIRATIONAL_PHRASES[
+        Math.floor(Math.random() * INSPIRATIONAL_PHRASES.length)
     ];
 
-    const frase = frases[Math.floor(Math.random() * frases.length)];
-
-    document.getElementById("resultado").innerHTML = `
-        <strong>Faltam:</strong><br>
-        🗓️ ${anos} anos, ${meses} meses e ${dias} dias
+    document.getElementById('resultado').innerHTML = `
+        <strong>Faltam:</strong>
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number">${anos}</div>
+                <div class="stat-label">Anos</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">${meses}</div>
+                <div class="stat-label">Meses</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">${dias}</div>
+                <div class="stat-label">Dias</div>
+            </div>
+        </div>
+        <small>Reforma prevista: ${formatarData(dataReforma)}</small>
         <div class="frase">"${frase}"</div>
     `;
 }
 
+function calcularDiferenca(dataNasc, dataReforma, hoje) {
+    let anos = dataReforma.getFullYear() - hoje.getFullYear();
+    let meses = dataReforma.getMonth() - hoje.getMonth();
+    let dias = dataReforma.getDate() - hoje.getDate();
+
+    // Adjust days
+    if (dias < 0) {
+        meses--;
+        const ultimoMes = new Date(
+            hoje.getFullYear(),
+            hoje.getMonth(),
+            0
+        ).getDate();
+        dias += ultimoMes;
+    }
+
+    // Adjust months
+    if (meses < 0) {
+        anos--;
+        meses += 12;
+    }
+
+    return { anos, meses, dias };
+}
+
+function formatarData(data) {
+    const opcoes = { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        timeZone: 'UTC'
+    };
+    return data.toLocaleDateString('pt-PT', opcoes);
+}
 </script>
 
 </body>
